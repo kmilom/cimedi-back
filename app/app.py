@@ -24,3 +24,20 @@ def createUsuario(usuario: Usuario):
         return {"Message": "Usuario creado exitosamente!"}
     else:
         return {"Message": "Error al crear el usuario!"}
+
+
+@app.put("/editar-usuario/{idUsuario}")
+def updateUsuario(idUsuario: int, usuario: Usuario):
+    usuario.idUsuario = idUsuario
+    print(usuario)
+    if editarUsuario(usuario):
+        return {"Message": "Usuario editado correctamente!"}
+    else:
+        return {"Message": "No se pudo editar el usuario!"}
+    
+@app.delete("/eliminar-usuario/{idUsuario}")
+def deleteUsuario(idUsuario: int):
+    if(eliminarUsuario(idUsuario)):
+        return {"Message": "Usuario eliminado correctamente!"}
+    else:
+        return {"Message": "Error al eliminar el usuario"}

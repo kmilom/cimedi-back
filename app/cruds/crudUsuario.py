@@ -69,3 +69,34 @@ def crearUsuario(usuario: Usuario):
         return False
     finally:
         connection.close()
+
+def editarUsuario(usuario: Usuario) -> bool:
+    connection = connectToDatabase()
+    
+    try:
+        #print(usuario)
+        cursor = connection.cursor()
+        query = "UPDATE Usuarios SET idUsuario = %s, User = %s, Password = %s, idRol = %s WHERE idUsuario = %s"
+        cursor.execute(query, (usuario.idUsuario, usuario.User, usuario.Password, usuario.idRol, usuario.idUsuario))
+        connection.commit()
+        return True
+    except mysql.connector.Error as e:
+        print(f"Error al editar usuario {e}")
+        return False
+    finally:
+        connection.close()
+
+def eliminarUsuario(idUsuario: int) -> bool:
+    connection = connectToDatabase()
+
+    try:
+        cursor = connection.cursor()
+        query = "DELETE FROM Usuarios WHERE idUsuario = %s"
+        cursor.execute(query, (idUsuario,))
+        connection.commit()
+        return True
+    except mysql.connector.Error as e:
+        print(f"Error al eliminar usuario {e}")
+        return False
+    finally:
+        connection.close()
