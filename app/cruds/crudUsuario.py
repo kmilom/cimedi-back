@@ -74,7 +74,6 @@ def editarUsuario(usuario: Usuario) -> bool:
     connection = connectToDatabase()
     
     try:
-        #print(usuario)
         cursor = connection.cursor()
         query = "UPDATE Usuarios SET idUsuario = %s, User = %s, Password = %s, idRol = %s WHERE idUsuario = %s"
         cursor.execute(query, (usuario.idUsuario, usuario.User, usuario.Password, usuario.idRol, usuario.idUsuario))

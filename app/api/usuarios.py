@@ -1,10 +1,9 @@
 from fastapi import APIRouter
 from cruds.crudUsuario import *
-from cruds.crudEps import *
 
 router = APIRouter()
 
-@router.get("/usuarios/")
+@router.get("/usuarios")
 def readAllUsuarios():
     usuarios = getAllUsuarios()
     return {"Usuarios": usuarios}
