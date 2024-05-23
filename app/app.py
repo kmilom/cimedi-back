@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from api.usuarios import router as usuariosRouter
 from api.generos import router as generosRouter
+from api.tiposDocumentos import router as documentosRouter
 from fastapi.responses import RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -20,4 +21,5 @@ app.add_middleware(
 )
 
 app.include_router(usuariosRouter, prefix = "/api")
-app.include_router(generosRouter)
+app.include_router(generosRouter, prefix="/api")
+app.include_router(documentosRouter, prefix="/api")
