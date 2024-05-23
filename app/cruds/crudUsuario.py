@@ -5,7 +5,7 @@ from models.userModel import Usuario
 
 
 # Función para obtener todos los usuarios de la base de datos
-def getAllUsuarios() -> List[Usuario]:
+def todosUsuarios() -> List[Usuario]:
     # Establecer conexión a la base de datos
     connection = connectToDatabase()
 
@@ -37,7 +37,7 @@ def getAllUsuarios() -> List[Usuario]:
     return usuarios
 
 #Función para obtener un usuario por su id
-def getUsuarioById(idUsuario: int) -> Optional[Usuario]:
+def buscarUsuarioPorId(idUsuario: int) -> Optional[Usuario]:
     connection = connectToDatabase()
     usuario = None
 

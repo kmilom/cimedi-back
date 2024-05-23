@@ -1,16 +1,16 @@
 from fastapi import APIRouter
 from cruds.crudUsuario import *
 
-router = APIRouter()
+router = APIRouter(tags=["Usuarios"])
 
 @router.get("/usuarios")
 def readAllUsuarios():
-    usuarios = getAllUsuarios()
+    usuarios = todosUsuarios()
     return {"Usuarios": usuarios}
 
 @router.get("/usuarios/{idUsuario}")
 def readUsuarioById(idUsuario: int):
-    usuario = getUsuarioById(idUsuario)
+    usuario = buscarUsuarioPorId(idUsuario)
     return {"Usuario": usuario}
 
 @router.post("/crear-usuario")
