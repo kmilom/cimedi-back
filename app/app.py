@@ -1,8 +1,10 @@
 from fastapi import FastAPI
-from api.usuarios import router as usuariosRouter
+from api.eps import router as epsRouter
 from api.generos import router as generosRouter
-from api.tiposDocumentos import router as documentosRouter
+from api.pacientes import router as pacientesRouter
 from api.personas import router as personasRouter
+from api.tiposDocumentos import router as documentosRouter
+from api.usuarios import router as usuariosRouter
 from fastapi.responses import RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -21,7 +23,9 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+app.include_router(epsRouter, prefix="/api")
 app.include_router(generosRouter, prefix="/api")
+app.include_router(pacientesRouter, prefix="/api")
 app.include_router(personasRouter, prefix="/api")
 app.include_router(documentosRouter, prefix="/api")
 app.include_router(usuariosRouter, prefix = "/api")
