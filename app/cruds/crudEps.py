@@ -6,12 +6,17 @@ from models.EpsModel import Eps
 def todasEps() -> List[Eps]:
     connection = connectToDatabase()
 
+    eps_list = []
+
     try:
         cursor = connection.cursor(dictionary=True)
-        query = ("SELECT * FROM eps")
+        query = ("SELECT idEPS, Nombre FROM eps")
         cursor.execute(query)
         results = cursor.fetchall()
-        return results
+        for row in results:
+            eps = Eps(**row)
+            eps_list.append(eps)
+        
     except mysql.connector.Error as e:
         # Manejar error de base de datos
         print(f"Error al obtener lista de EPS: {e}")
@@ -21,6 +26,7 @@ def todasEps() -> List[Eps]:
             cursor.close()
         if 'connection' in locals() and connection.is_connected():
             connection.close()
+    return eps_list
 
 def buscarEpsPorId(idEPS: int) -> Optional[Eps]:
     connection = connectToDatabase()

@@ -62,8 +62,9 @@ def crearPersona(persona: PersonaCreate):
 
         query = "INSERT INTO Personas (Nombre, Apellido, Correo, FechaNacimiento, idTipoDocumento, Documento, idGenero) VALUES (%s, %s, %s, %s, %s, %s, %s)"
         cursor.execute(query, (persona.Nombre, persona.Apellido, persona.Correo, persona.FechaNacimiento, persona.idTipoDocumento, persona.Documento, persona.idGenero))
+        idPersona = cursor.lastrowid
         connection.commit()
-        return True
+        return idPersona
     except Exception as e:
         print(f"Error al crear persona: {e}")
         return False

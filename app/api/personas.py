@@ -15,8 +15,9 @@ def ReadPeronaById(idPersona: int):
 
 @router.post("/crear-persona")
 def createPersona(persona: PersonaCreate):
-    if(crearPersona(persona)):
-        return {"Message": "Persona creada exitosamente!"}
+    idPersona = crearPersona(persona)
+    if(idPersona != 0):
+        return {"idPersona": idPersona}
     else:
         return {"Message": "Error al crear la persona!"}
     
