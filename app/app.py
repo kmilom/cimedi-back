@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from api.eps import router as epsRouter
 from api.generos import router as generosRouter
+from api.medicos import router as medicosRouter
 from api.pacientes import router as pacientesRouter
 from api.personas import router as personasRouter
 from api.tiposDocumentos import router as documentosRouter
@@ -25,6 +26,7 @@ app.add_middleware(
 
 app.include_router(epsRouter, prefix="/api")
 app.include_router(generosRouter, prefix="/api")
+app.include_router(medicosRouter, prefix="/api")
 app.include_router(pacientesRouter, prefix="/api")
 app.include_router(personasRouter, prefix="/api")
 app.include_router(documentosRouter, prefix="/api")

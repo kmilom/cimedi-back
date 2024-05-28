@@ -1,9 +1,9 @@
 from core.database import connectToDatabase
 import mysql.connector
 from typing import List, Optional
-from models.pacienteModel import Paciente
+from models.pacienteModel import *
 
-def todosPacientes() -> List[Paciente]:
+def todosPacientes() -> List[PacienteInfo]:
     connection = connectToDatabase()
 
     try:
@@ -11,11 +11,11 @@ def todosPacientes() -> List[Paciente]:
 
         pacientes = []
 
-        query = "SELECT idPaciente, idEPS FROM Pacientes"
+        query = "SELECT pa.idPaciente, pe.Nombre, pe.Apellido, pe.Correo, pe.FechaNacimiento, doc.Tipo, pe.Documento, gen.Genero FROM Pacientes AS pa INNER JOIN Personas as pe ON pa.idPaciente = pe.idPersona INNER JOIN tiposdocumentos AS doc ON doc.IdTipoDocumento = pe.IdTipoDocumento INNER JOIN generos AS gen ON gen.IdGenero = pe.IdGenero"
         cursor.execute(query)
 
         for row in cursor.fetchall():
-            paciente = Paciente(**row)
+            paciente = PacienteInfo(**row)
             pacientes.append(paciente)
         
     except mysql.connector.Error as e:
@@ -29,7 +29,7 @@ def todosPacientes() -> List[Paciente]:
             connection.close()
     return pacientes
 
-def buscarPacientePorId(idPaciente: int)-> Optional[Paciente]:
+def buscarPacientePorId(idPaciente: int)-> Optional[PacienteInfo]:
     connection = connectToDatabase()
 
     try:
@@ -37,7 +37,7 @@ def buscarPacientePorId(idPaciente: int)-> Optional[Paciente]:
 
         paciente = None
 
-        query = "SELECT idPaciente, idEPS FROM Pacientes WHERE idPaciente = %s"
+        query = "SELECT pa.idPaciente, pe.Nombre, pe.Apellido, pe.Correo, pe.FechaNacimiento, doc.Tipo, pe.Documento, gen.Genero FROM Pacientes AS pa INNER JOIN Personas as pe ON pa.idPaciente = pe.idPersona INNER JOIN tiposdocumentos AS doc ON doc.IdTipoDocumento = pe.IdTipoDocumento INNER JOIN generos AS gen ON gen.IdGenero = pe.IdGenero WHERE idPaciente = %s"
         cursor.execute(query,(idPaciente,))
 
         row = cursor.fetchone()
