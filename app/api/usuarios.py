@@ -8,6 +8,11 @@ def readAllUsuarios():
     usuarios = todosUsuarios()
     return {"Usuarios": usuarios}
 
+@router.get("/usuarios-info")
+def readAllUsuariosInfo():
+    usuarios = todosUsuariosInfo()
+    return {"Usuarios": usuarios}
+
 @router.get("/usuarios/{idUsuario}")
 def readUsuarioById(idUsuario: int):
     usuario = buscarUsuarioPorId(idUsuario)

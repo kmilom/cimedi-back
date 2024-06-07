@@ -1,7 +1,7 @@
 from typing import List, Optional
 import mysql.connector
 from core.database import connectToDatabase
-from models.userModel import Usuario
+from models.userModel import *
 
 
 # Función para obtener todos los usuarios de la base de datos
@@ -36,6 +36,35 @@ def todosUsuarios() -> List[Usuario]:
             
     return usuarios
 
+def todosUsuariosInfo() -> List[UsuarioInfo]:
+    connection = connectToDatabase()
+
+    usuarios = []
+
+    try:
+        # Crear cursor
+        cursor = connection.cursor(dictionary = True)
+
+        # Ejecutar consulta para obtener todos los usuarios
+        query = "SELECT u.idUsuario, u.User, u.Password, r.Rol FROM Usuarios AS u INNER JOIN Roles AS r ON u.idRol = r.idRol"
+        cursor.execute(query)
+
+        # Obtener resultados y convertirlos a objetos Usuario
+        for row in cursor.fetchall():
+            usuario = UsuarioInfo(**row)
+            usuarios.append(usuario)
+    except mysql.connector.Error as e:
+        # Manejar error de base de datos
+        print(f"Error al obtener usuarios: {e}")
+    finally:
+        # Cerrar cursor y conexión
+        if 'cursor' in locals():
+            cursor.close()
+        if 'connection' in locals() and connection.is_connected():
+            connection.close()
+            
+    return usuarios
+
 #Función para obtener un usuario por su id
 def buscarUsuarioPorId(idUsuario: int) -> Optional[Usuario]:
     connection = connectToDatabase()
@@ -44,11 +73,11 @@ def buscarUsuarioPorId(idUsuario: int) -> Optional[Usuario]:
 
     try:
         cursor = connection.cursor(dictionary = True)
-        query = "SELECT idUsuario, User, Password, idRol FROM Usuarios WHERE idUsuario = %s"
+        query = "SELECT u.idUsuario, u.User, u.Password, r.Rol FROM Usuarios AS u INNER JOIN Roles AS r ON u.idRol = r.idRol WHERE idUsuario = %s"
         cursor.execute(query, (idUsuario,))
         row = cursor.fetchone()
         if row:
-            usuario = Usuario(**row)
+            usuario = UsuarioInfo(**row)
     except mysql.connector.Error as e:
         # Manejar error de base de datos
         print(f"Error al obtener usuarios: {e}")
