@@ -5,10 +5,20 @@ router = APIRouter(tags=["Medicos"])
 
 @router.get("/medicos")
 def getAllMedicos():
-    medicos = todoMedicos()
+    medicos = todosMedicos()
+    return { "Medicos": medicos }
+
+@router.get("/medicos-info")
+def getAllMedicos():
+    medicos = todosMedicosInfo()
     return { "Medicos": medicos }
 
 @router.get("/info-medico/{idMedico}")
 def getInfoMedicoByIp(idMedico: int):
     medico = obtenerInfoMedicoPorId(idMedico)
     return { "Medico": medico }
+
+@router.get("/medico-por-especialidad/{idEspecialidad}")
+def getMedicoByEspecialidad(idEspecialidad: int):
+    medicos = medicosPorEspecialidad(idEspecialidad)
+    return { "Medico": medicos }
