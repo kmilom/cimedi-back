@@ -11,6 +11,7 @@ def todosMedicos()-> List[Medico]:
 
         medicos = []
         query = "SELECT idMedico, idEspecialidad FROM Medicos"
+        cursor.execute(query)
 
         for row in cursor.fetchall():
             medico = Medico(**row)
