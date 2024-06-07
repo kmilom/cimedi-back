@@ -11,7 +11,7 @@ def todosPacientes() -> List[PacienteInfo]:
 
         pacientes = []
 
-        query = "SELECT pa.idPaciente, pe.Nombre, pe.Apellido, pe.Correo, pe.FechaNacimiento, doc.Tipo, pe.Documento, gen.Genero FROM Pacientes AS pa INNER JOIN Personas as pe ON pa.idPaciente = pe.idPersona INNER JOIN tiposdocumentos AS doc ON doc.IdTipoDocumento = pe.IdTipoDocumento INNER JOIN generos AS gen ON gen.IdGenero = pe.IdGenero"
+        query = "SELECT pa.idPaciente, pe.Nombre, pe.Apellido, pe.Correo, pe.FechaNacimiento, doc.Tipo, pe.Documento, gen.Genero, e.Nombre AS EPS FROM Pacientes AS pa INNER JOIN Personas as pe ON pa.idPaciente = pe.idPersona INNER JOIN tiposdocumentos AS doc ON doc.IdTipoDocumento = pe.IdTipoDocumento INNER JOIN generos AS gen ON gen.IdGenero = pe.IdGenero INNER JOIN EPS AS e ON e.idEPS = pa.idEPS"
         cursor.execute(query)
 
         for row in cursor.fetchall():
@@ -37,7 +37,7 @@ def buscarPacientePorId(idPaciente: int)-> Optional[PacienteInfo]:
 
         paciente = None
 
-        query = "SELECT pa.idPaciente, pe.Nombre, pe.Apellido, pe.Correo, pe.FechaNacimiento, doc.Tipo, pe.Documento, gen.Genero FROM Pacientes AS pa INNER JOIN Personas as pe ON pa.idPaciente = pe.idPersona INNER JOIN tiposdocumentos AS doc ON doc.IdTipoDocumento = pe.IdTipoDocumento INNER JOIN generos AS gen ON gen.IdGenero = pe.IdGenero WHERE idPaciente = %s"
+        query = "SELECT pa.idPaciente, pe.Nombre, pe.Apellido, pe.Correo, pe.FechaNacimiento, doc.Tipo, pe.Documento, gen.Genero, e.Nombre AS EPS FROM Pacientes AS pa INNER JOIN Personas as pe ON pa.idPaciente = pe.idPersona INNER JOIN tiposdocumentos AS doc ON doc.IdTipoDocumento = pe.IdTipoDocumento INNER JOIN generos AS gen ON gen.IdGenero = pe.IdGenero INNER JOIN EPS AS e ON e.idEPS = pa.idEPS WHERE idPaciente = %s"
         cursor.execute(query,(idPaciente,))
 
         row = cursor.fetchone()

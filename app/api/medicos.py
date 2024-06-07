@@ -18,7 +18,7 @@ def getInfoMedicoByIp(idMedico: int):
     medico = obtenerInfoMedicoPorId(idMedico)
     return { "Medico": medico }
 
-@router.get("/medico-por-especialidad/{idEspecialidad}")
+@router.get("/medicos-por-especialidad/{idEspecialidad}")
 def getMedicoByEspecialidad(idEspecialidad: int):
     medicos = medicosPorEspecialidad(idEspecialidad)
     return { "Medico": medicos }

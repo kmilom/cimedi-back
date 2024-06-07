@@ -14,3 +14,4 @@ class PacienteInfo(BaseModel):
     Tipo: str
     Documento: int
     Genero: str
+    EPS: str
