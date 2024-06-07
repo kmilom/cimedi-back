@@ -8,6 +8,11 @@ def readAllPersonas():
     personas = TodasPersonas()
     return {"personas": personas}
 
+@router.get("/personas-info")
+def readAllPersonasInfo():
+    personas = TodasPersonasInfo()
+    return {"personas": personas}
+
 @router.get("/personas/{idPersona}")
 def ReadPeronaById(idPersona: int):
     persona = buscarPersonaPorId(idPersona)

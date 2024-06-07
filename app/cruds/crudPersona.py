@@ -1,7 +1,7 @@
 from typing import List, Optional
 import mysql.connector
 from core.database import connectToDatabase
-from models.PersonaModel import Persona, PersonaCreate
+from models.PersonaModel import *
 
 def TodasPersonas() -> List[Persona]:
     connection = connectToDatabase()
@@ -29,7 +29,33 @@ def TodasPersonas() -> List[Persona]:
 
     return personas
 
-def buscarPersonaPorId(idPersona: int)-> Optional[Persona]:
+def TodasPersonasInfo() -> List[PersonaInfo]:
+    connection = connectToDatabase()
+
+    personas = []
+
+    try:
+        cursor = connection.cursor(dictionary=True)
+
+        query = "SELECT p.idPersona, p.Nombre, p.Apellido, p.Correo, p.FechaNacimiento, doc.Tipo, p.Documento, g.Genero FROM Personas AS p INNER JOIN TiposDocumentos AS doc ON p.idTipoDocumento = doc.idTipoDocumento INNER JOIN Generos AS g ON p.idGenero = g.idGenero"
+        cursor.execute(query)
+
+        for row in cursor.fetchall():
+            persona = PersonaInfo(**row)
+            personas.append(persona)
+    except mysql.connector.Error as e:
+        # Manejar error de base de datos
+        print(f"Error al obtener lista de personas: {e}")
+    finally:
+        # Cerrar cursor y conexión
+        if 'cursor' in locals():
+            cursor.close()
+        if 'connection' in locals() and connection.is_connected():
+            connection.close()
+
+    return personas
+
+def buscarPersonaPorId(idPersona: int)-> Optional[PersonaInfo]:
     connection = connectToDatabase()
 
     persona = None
@@ -37,12 +63,12 @@ def buscarPersonaPorId(idPersona: int)-> Optional[Persona]:
     try:
         cursor = connection.cursor(dictionary=True)
         
-        query = "SELECT idPersona, Nombre, Apellido, Correo, FechaNacimiento, idTipoDocumento, Documento, idGenero FROM Personas WHERE idPersona = %s"
+        query = "SELECT p.idPersona, p.Nombre, p.Apellido, p.Correo, p.FechaNacimiento, doc.Tipo, p.Documento, g.Genero FROM Personas AS p INNER JOIN TiposDocumentos AS doc ON p.idTipoDocumento = doc.idTipoDocumento INNER JOIN Generos AS g ON p.idGenero = g.idGenero WHERE p.idPersona = %s"
 
         cursor.execute(query,(idPersona,))
         row = cursor.fetchone()
         if row:
-            persona = Persona(**row)
+            persona = PersonaInfo(**row)
     except mysql.connector.Error as e:
         # Manejar error de base de datos
         print(f"Error al obtener persona: {e}")

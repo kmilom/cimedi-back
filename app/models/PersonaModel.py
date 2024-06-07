@@ -19,3 +19,13 @@ class PersonaCreate(BaseModel):
     idTipoDocumento: int
     Documento: int
     idGenero: int
+
+class PersonaInfo(BaseModel):
+    idPersona: int
+    Nombre: str
+    Apellido: str
+    Correo: str
+    FechaNacimiento: date
+    Tipo: str
+    Documento: int
+    Genero: str
