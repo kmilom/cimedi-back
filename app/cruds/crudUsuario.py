@@ -66,7 +66,7 @@ def todosUsuariosInfo() -> List[UsuarioInfo]:
     return usuarios
 
 #Función para obtener un usuario por su id
-def buscarUsuarioPorId(idUsuario: int) -> Optional[Usuario]:
+def buscarUsuarioPorId(idUsuario: int) -> Optional[UsuarioInfo]:
     connection = connectToDatabase()
     
     usuario = None
@@ -78,6 +78,29 @@ def buscarUsuarioPorId(idUsuario: int) -> Optional[Usuario]:
         row = cursor.fetchone()
         if row:
             usuario = UsuarioInfo(**row)
+    except mysql.connector.Error as e:
+        # Manejar error de base de datos
+        print(f"Error al obtener usuarios: {e}")
+    finally:
+        # Cerrar cursor y conexión
+        if 'cursor' in locals():
+            cursor.close()
+        if 'connection' in locals() and connection.is_connected():
+            connection.close()
+    return usuario
+
+def buscarUsuarioPorUser(User: str) -> Optional[Usuario]:
+    connection = connectToDatabase()
+    
+    usuario = None
+
+    try:
+        cursor = connection.cursor(dictionary = True)
+        query = "SELECT idUsuario, User, Password, idRol FROM Usuarios WHERE User = %s"
+        cursor.execute(query, (User,))
+        row = cursor.fetchone()
+        if row:
+            usuario = Usuario(**row)
     except mysql.connector.Error as e:
         # Manejar error de base de datos
         print(f"Error al obtener usuarios: {e}")
