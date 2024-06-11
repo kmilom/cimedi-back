@@ -8,6 +8,11 @@ def getAllCitas():
     citas = TodasCitas()
     return { "Citas": citas}
 
+@router.get("/citas-por-paciente/{idPaciente}")
+def getCitasByPatient(idPaciente: int):
+    citas = citasPorPaciente(idPaciente)
+    return { "Citas": citas}
+
 @router.post("/crear-cita")
 def createCita(cita: CitaCreate):
     if(crearCita(cita)):

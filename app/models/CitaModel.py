@@ -16,9 +16,7 @@ class CitaInfo(BaseModel):
     Especialidad: str
     Fecha: date
     Hora: str
-    EstadoCita: str
-    Nombre: str
-    Apellido: str
+    Estado: str
     Nombre: str
     Apellido: str
 

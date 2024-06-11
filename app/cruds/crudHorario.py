@@ -27,15 +27,15 @@ def todosHorarios() -> List[Horario]:
             connection.close()
     return horarios
 
-def buscarHorasPorFecha(Fecha)->List[HorarioInfo]:
+def buscarHorasPorEspecialidadYFecha(Medico, Fecha)->List[HorarioInfo]:
     connection = connectToDatabase()
 
     horarios = []
 
     try:
         cursor = connection.cursor(dictionary=True)
-        query = "SELECT h.idHorario, h.Hora, h.Fecha, pe.Nombre, pe.Apellido FROM Horarios AS h INNER JOIN Personas AS pe ON pe.idPersona = h.idMedico WHERE Fecha =%s"
-        cursor.execute(query,(Fecha,))
+        query = "SELECT h.idHorario, h.Hora, h.Fecha, pe.Nombre, pe.Apellido FROM Horarios AS h INNER JOIN Personas AS pe ON pe.idPersona = h.idMedico WHERE h.Fecha = %s AND h.idMedico = %s"
+        cursor.execute(query,(Fecha, Medico))
         for row in cursor.fetchall():
             horario = HorarioInfo(**row)
             horarios.append(horario)
